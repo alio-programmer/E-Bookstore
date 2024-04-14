@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
-const Addbook = () => {
+const Updatebook = () => {
+    const location = useLocation();
+    const id = location.state.id;
   const [error, seterror] = useState("");
   const [data, setdata] = useState({
     name: "",
@@ -16,8 +19,11 @@ const Addbook = () => {
   const handlesubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:4001/book/addbook";
-      const { data: res } = await axios.post(url, data);
+      const url = `http://localhost:4001/book/updatebook/${id}`;
+      const response = await axios.put(url, data);
+      if(response){
+        console.log("data updated successfully");
+      }
       window.location = "/";
       setdata({
         name: "",
@@ -40,7 +46,7 @@ const Addbook = () => {
         className=" w-[30%] h-[60%] flex flex-col justify-center child:m-2 child:dark:p-4 rounded-lg child:p-5 child:dark:shadow-lg child:dark:rounded-md bg-gray-300 shadow-lg shadow-black"
       >
         <h1 className="flex justify-center text-4xl font-bold bg-blue-500 text-white">
-          Add Book
+          Update Book
         </h1>
         <input
           type="text"
@@ -83,11 +89,11 @@ const Addbook = () => {
           placeholder="Author"
         ></input>
         <button onClick={handlesubmit} className=" bg-green-500 m-3">
-          ADD BOOK
+          UPDATE BOOK
         </button>
       </form>
     </div>
   );
 };
 
-export default Addbook;
+export default Updatebook;

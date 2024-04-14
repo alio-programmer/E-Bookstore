@@ -32,3 +32,33 @@ export const addbooks = async(req, res) => {
         res.status(500).send(error.message)
     }
 }
+
+export const deletebook = async(req, res) => {
+    try{
+        const Bookid = req.params.id;
+        const result = await Book.deleteOne({_id:Bookid});
+        if(result){
+            res.status(200).send("Book deleted successfully");
+        }
+
+    } catch(error){
+        res.status(400).send(error.message);
+    }
+
+}
+
+export const updatebook = async(req, res) =>{
+    try{
+        const Bookid = req.params.id;
+        const update = await Book.findByIdAndUpdate(Bookid, req.body, {
+            new:true
+        })
+        if(update){
+            res.status(200).json({
+                message:"book updated successfully"
+            })
+        }
+    }catch(error){
+        res.status(400).send(error.message);
+    }
+}
